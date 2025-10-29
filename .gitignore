@@ -1,0 +1,6 @@
+data/raw/vehicle_detection/train/images
+data/raw/vehicle_detection/train/labels
+data/raw/vehicle_detection/valid/images
+data/raw/vehicle_detection/valid/labels
+
+
