@@ -1,11 +1,11 @@
-# 🚗 AI Monk — Vehicle Detection using YOLO
+# AI Monk — Vehicle Detection using YOLO
 
 **Vehicle Detection** application built with **YOLOv11**, **FastAPI**, and **Gradio**.  
 It provides an interactive web interface and REST API for running inference on images using a pretrained model.
 
 ---
 
-## 🧩 Project Structure
+## Project Structure
 
 ```
 ai_monk/
@@ -28,11 +28,11 @@ ai_monk/
 
 ---
 
-## 🚀 Quick Start (Docker)
+## Quick Start (Docker)
 
 You can run this project **without installing Python or dependencies** — using Docker.
 
-### 1️1 Clone the repository
+### 1 Clone the repository
 
 ```bash
 git clone https://github.com/Amriteshwork/ai_monk.git
@@ -53,10 +53,7 @@ Run the container and expose port **8000**:
 docker run -p 8000:8000 vehicle-detector
 ```
 
-Now open your browser at:  
-```
-**http://localhost:8000**
-```
+Now open your browser at:  **http://localhost:8000**
 
 You’ll see the **Gradio interface** for uploading images and viewing detection results.
 
