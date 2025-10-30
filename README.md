@@ -32,20 +32,20 @@ ai_monk/
 
 You can run this project **without installing Python or dependencies** — using Docker.
 
-### 1️⃣ Clone the repository
+### 1️1 Clone the repository
 
 ```bash
 git clone https://github.com/Amriteshwork/ai_monk.git
 cd ai_monk
 ```
 
-### 2️⃣ Build the Docker image
+### 2 Build the Docker image
 
 ```bash
 docker build -t vehicle-detector .
 ```
 
-### 3️⃣ Run the container
+### 3 Run the container
 
 Run the container and expose port **8000**:
 
@@ -54,13 +54,15 @@ docker run -p 8000:8000 vehicle-detector
 ```
 
 Now open your browser at:  
-👉 **http://localhost:8000**
+```
+**http://localhost:8000**
+```
 
 You’ll see the **Gradio interface** for uploading images and viewing detection results.
 
 ---
 
-## 🧱 Optional: Persistent outputs
+## Optional: Persistent outputs
 
 To save the detected images on your host machine:
 
@@ -75,7 +77,7 @@ Detected images will appear in your local `inference_outputs/` folder.
 
 ---
 
-## 🧠 Optional: Custom model weights
+## Optional: Custom model weights
 
 If you want to run inference with your own trained weights, mount them and override the environment variable:
 
@@ -89,7 +91,7 @@ docker run \
 
 ---
 
-## ⚙️ Alternative: Using Docker Compose
+## Alternative: Using Docker Compose
 
 You can also use `docker-compose.yml` (if included in the repo):
 
@@ -99,7 +101,7 @@ docker compose up --build
 
 ---
 
-## 🧰 Development Setup (without Docker)
+## Development Setup (without Docker)
 
 If you prefer running locally:
 
@@ -135,7 +137,7 @@ MODEL_WEIGHTS_PATH = Path(os.getenv(
 
 ---
 
-## 🧪 API Endpoint
+## API Endpoint
 
 Once running, you can also use the FastAPI endpoint:
 
@@ -147,13 +149,6 @@ curl -X POST "http://localhost:8000/detect/" \
   -F "file=@test_image/car.jpg"
 ```
 
----
-
-## 📜 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
----
 
 ## 👨‍💻 Author
 
