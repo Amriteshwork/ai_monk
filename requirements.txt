@@ -1,0 +1,10 @@
+backcall==0.2.0
+gradio==5.49.1
+importlib-metadata==8.0.0
+ipykernel==6.29.4
+jaraco.collections==5.1.0
+pickleshare==0.7.5
+pip-chill==1.0.3
+python-dotenv==1.2.1
+tomli==2.0.1
+ultralytics==8.3.221
