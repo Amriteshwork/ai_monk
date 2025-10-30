@@ -15,8 +15,6 @@ COPY main.py ./
 COPY src/ ./src/
 
 # copy model FROM THE REPO
-# this is the path in your GitHub repo:
-# runs/detect/vehicle_detection/weights/best.pt
 COPY runs/ ./runs/
 
 # dirs for outputs

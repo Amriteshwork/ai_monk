@@ -8,7 +8,6 @@ load_dotenv(dotenv_path=Path(__file__).resolve().parents[1] / ".env")
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# /media/amritesh/bytesviewhdd1/ai_stuff/ai_monk_lab/data/raw/vehicle-detection.v3i.yolov11"
 
 # RAW DATA 
 DATASET_ROOT = Path(os.getenv("DATASET_ROOT", "data/raw/vehicle_detection"))
@@ -33,7 +32,7 @@ CLASSES = {
 }
 ID_TO_NAME = {v: k for k, v in CLASSES.items()}
 
-MODEL_WEIGHTS_PATH = Path(os.getenv("MODEL_WEIGHTS_PATH", f"{BASE_DIR}/runs/detect/vehicle_detector/weights/best.pt"))
+MODEL_WEIGHTS_PATH = Path(os.getenv("MODEL_WEIGHTS_PATH", f"{BASE_DIR}/runs/detect/vehicle_detection/weights/best.pt"))
 OUTPUT_DIR = Path("inference_outputs")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -47,8 +46,8 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
-        logging.StreamHandler(),          # Console output
-        logging.FileHandler(LOG_FILE),    # File output
+        logging.StreamHandler(),         
+        logging.FileHandler(LOG_FILE), 
     ],
 )
 

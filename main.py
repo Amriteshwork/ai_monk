@@ -1,7 +1,6 @@
 import io
 import uuid
 import numpy as np
-from pathlib import Path
 from typing import List
 
 import uvicorn
@@ -12,11 +11,9 @@ from pydantic import BaseModel
 from ultralytics import YOLO
 from PIL import Image
 
-# Import configuration from your existing src.config
 from src.config import MODEL_WEIGHTS_PATH, ID_TO_NAME, LOGGER, OUTPUT_DIR
 
-# --- Pydantic Models for API Response ---
-# These are still used by our /detect/ API endpoint
+# Pydantic Models for API Response 
 
 class BoundingBox(BaseModel):
     x_min: float
@@ -33,14 +30,14 @@ class InferenceResponse(BaseModel):
     detections: List[DetectionResult]
     annotated_image_path: str
 
-# --- FastAPI Application Setup ---
+# FastAPI Application Setup
 app = FastAPI(
-    title="Pothole & Car Detection API",
-    description="An AI service using a YOLOv11s model to detect potholes and cars. Provides a /detect/ API endpoint and a / Gradio UI.",
+    title="Vehicle Detection API",
+    description="An AI service using a YOLOv11s model to detect vehicles.",
     version="1.0.0",
 )
 
-# --- Model Loading ---
+# Model Loading
 try:
     model = YOLO(MODEL_WEIGHTS_PATH)
     LOGGER.info(f"Successfully loaded model from {MODEL_WEIGHTS_PATH}")
@@ -48,7 +45,7 @@ except Exception as e:
     LOGGER.error(f"Failed to load model from {MODEL_WEIGHTS_PATH}. Error: {e}")
     raise RuntimeError(f"Could not load YOLO model: {e}")
 
-# --- Core Detection Logic ---
+# Core Detection Logic
 def run_detection(input_image: Image.Image):
     """
     Runs the YOLO model on a PIL Image.
@@ -61,14 +58,14 @@ def run_detection(input_image: Image.Image):
             - The annotated image as an RGB NumPy array.
             - A list of DetectionResult pydantic models.
     """
-    # 1. Run model inference
+    # Run model inference
     results = model(input_image)
     result = results[0]
 
-    # 2. Get annotated image (as an RGB numpy array)
+    # Get annotated image (as an RGB numpy array)
     annotated_image_array = result.plot() 
     
-    # 3. Process detection results
+    # Process detection results
     detections = []
     for box in result.boxes:
         class_id = int(box.cls[0].item())
@@ -91,7 +88,7 @@ def run_detection(input_image: Image.Image):
         
     return annotated_image_array, detections
 
-# --- 1. AI Backend Service (API Endpoint) ---
+# AI Backend Service (API Endpoint)
 @app.post("/detect/", response_model=InferenceResponse)
 async def detect_objects(file: UploadFile = File(...)):
     """
@@ -106,11 +103,10 @@ async def detect_objects(file: UploadFile = File(...)):
         contents = await file.read()
         image = Image.open(io.BytesIO(contents))
 
-        # 2. Call the core detection logic
+        # Call the core detection logic
         annotated_image_array, detections = run_detection(image)
 
-        # 3. Save annotated image
-        # (The API provides a path, while Gradio shows the image directly)
+        # Save annotated image
         save_filename = f"{uuid.uuid4()}.jpg"
         save_path = OUTPUT_DIR / save_filename
         Image.fromarray(annotated_image_array).save(save_path) # Save the annotated image
@@ -121,7 +117,7 @@ async def detect_objects(file: UploadFile = File(...)):
         # 5. Return the JSON response
         return InferenceResponse(
             detections=detections,
-            annotated_image_path=str(save_path) # Return the file path
+            annotated_image_path=str(save_path)
         )
 
     except Exception as e:
@@ -131,7 +127,7 @@ async def detect_objects(file: UploadFile = File(...)):
             content={"message": "An internal server error occurred during inference.", "error": str(e)}
         )
 
-# --- 2. UI End (Gradio Interface) ---
+# 2. UI End (Gradio Interface)
 def gradio_inference_fn(image_numpy: np.ndarray):
     """
     A wrapper function for our core logic to fit Gradio's I/O.
@@ -144,13 +140,13 @@ def gradio_inference_fn(image_numpy: np.ndarray):
             - The annotated image as a NumPy array.
             - The detection results as a JSON-friendly dict.
     """
-    # 1. Convert numpy array to PIL Image
+    # Convert numpy array to PIL Image
     image_pil = Image.fromarray(image_numpy)
     
-    # 2. Call the core detection logic
+    # Call the core detection logic
     annotated_image_array, detections_pydantic = run_detection(image_pil)
-    
-    # 3. Convert pydantic objects to plain dicts for Gradio's JSON output
+
+    # Convert pydantic objects to plain dicts for Gradio's JSON output
     detections_json = [d.model_dump() for d in detections_pydantic]
     
     return annotated_image_array, detections_json
@@ -163,18 +159,13 @@ gradio_ui = gr.Interface(
         gr.Image(type="numpy", label="Annotated Image"),
         gr.JSON(label="Detection Results")
     ],
-    title="Pothole & Car Detector UI",
-    description="Upload an image to detect potholes and cars. This UI is served from the same server as the `/detect/` API."
+    title="Vehicle Detection",
+    description="Upload an image to detect vehicles."
 )
 
 # Mount the Gradio app onto the FastAPI app
-# The Gradio UI will be available at the root path ("/")
 app = gr.mount_gradio_app(app, gradio_ui, path="/")
 
-# --- Run the Application ---
 if __name__ == "__main__":
-    """
-    This allows you to run the app directly using `python main.py`
-    """
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
