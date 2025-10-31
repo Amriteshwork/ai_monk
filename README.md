@@ -135,7 +135,7 @@ Upload an image file:
 
 ```bash
 curl -X POST "http://localhost:8000/detect/" \
-  -F "file=@test_image/car.jpg"
+  -F "file=@test_image/test_car_3.jpg"
 ```
 
 
