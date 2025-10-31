@@ -2,6 +2,7 @@
 
 **Vehicle Detection** application built with **YOLOv11**, **FastAPI**, and **Gradio**.  
 It provides an interactive web interface and REST API for running inference on images using a pretrained model.
+It can predict: **bus, car, microbus, motorbike, pickup-van, and truck**
 
 ---
 
@@ -88,15 +89,6 @@ docker run \
 
 ---
 
-## Alternative: Using Docker Compose
-
-You can also use `docker-compose.yml` (if included in the repo):
-
-```bash
-docker compose up --build
-```
-
----
 
 ## Development Setup (without Docker)
 
@@ -118,7 +110,7 @@ Then open [http://localhost:8000](http://localhost:8000)
 
 ---
 
-## 🧩 Configuration
+## Configuration
 
 The configuration is defined in `src/config.py`:
 

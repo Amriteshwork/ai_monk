@@ -160,7 +160,7 @@ gradio_ui = gr.Interface(
         gr.JSON(label="Detection Results")
     ],
     title="Vehicle Detection",
-    description="Upload an image to detect vehicles."
+    description="Upload an image of BUS, CAR, MICROBUS, MOTORBIKE, PICKUP-VAN, and TRUCK"
 )
 
 # Mount the Gradio app onto the FastAPI app
