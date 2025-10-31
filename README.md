@@ -1,8 +1,8 @@
 # AI Monk — Vehicle Detection using YOLO
 
 **Vehicle Detection** application built with **YOLOv11**, **FastAPI**, and **Gradio**.  
-It provides an interactive web interface and REST API for running inference on images using a pretrained model.
-It can predict: **bus, car, microbus, motorbike, pickup-van, and truck**
+It provides an interactive web interface and REST API for running inference on images using a pretrained model.       
+It can predict: **BUS, CAR, MICROBUS, MOTORBIKE, PICKUP-VAN, and TRUCK**
 
 ---
 
